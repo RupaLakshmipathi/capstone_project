@@ -1,0 +1,29 @@
+<%- include('partials/header', { title }) %>
+
+<section class="panel product-detail">
+  <div class="detail-media">
+    <img src="<%= product.image %>" alt="<%= product.title %>" />
+  </div>
+
+  <div class="detail-content">
+    <p class="eyebrow"><%= product.category %></p>
+    <h1><%= product.title %></h1>
+    <p class="price">Rs <%= product.price.toFixed(2) %></p>
+    <p><%= product.description %></p>
+
+    <div class="seller-box">
+      <h3>Seller</h3>
+      <p><%= product.sellerId ? product.sellerId.name : 'Unknown Seller' %></p>
+      <p class="muted"><%= product.sellerId ? product.sellerId.email : '' %></p>
+    </div>
+
+    <div class="panel-actions">
+      <a href="/products" class="btn btn-ghost">Back to Marketplace</a>
+      <% if (isOwner) { %>
+      <a href="/product/edit/<%= product._id %>" class="btn btn-primary">Edit Product</a>
+      <% } %>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

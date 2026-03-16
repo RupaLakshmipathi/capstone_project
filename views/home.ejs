@@ -1,0 +1,58 @@
+<%- include('partials/header', { title }) %>
+
+<% if (typeof notFound !== 'undefined' && notFound) { %>
+<section class="hero hero-compact">
+  <div>
+    <p class="eyebrow">404</p>
+    <h1>Page not found.</h1>
+    <p>The page you requested does not exist. Explore SakhiSell from the home page.</p>
+    <a class="btn btn-primary" href="/">Back to Home</a>
+  </div>
+</section>
+<% } else { %>
+<section class="hero">
+  <div class="hero-copy">
+    <p class="eyebrow">Women-Led Marketplace</p>
+    <h1>Turn passion into a thriving storefront with SakhiSell.</h1>
+    <p>
+      SakhiSell is built for women entrepreneurs selling handmade and homemade products.
+      List your creations, reach buyers, and grow your business in a supportive marketplace.
+    </p>
+    <div class="hero-actions">
+      <% if (currentUser) { %>
+      <a href="/dashboard" class="btn btn-primary">Go to Dashboard</a>
+      <a href="/products" class="btn btn-ghost">Explore Products</a>
+      <% } else { %>
+      <a href="/signup" class="btn btn-primary">Create Account</a>
+      <a href="/login" class="btn btn-ghost">Login</a>
+      <% } %>
+    </div>
+  </div>
+  <div class="hero-card">
+    <h3>Why SakhiSell?</h3>
+    <ul>
+      <li>Secure buyer and seller accounts</li>
+      <li>Beautiful product catalog with search and filters</li>
+      <li>Quick product management for sellers</li>
+      <li>Responsive experience on desktop and mobile</li>
+    </ul>
+  </div>
+</section>
+
+<section class="feature-grid">
+  <article class="feature-card">
+    <h3>Made by Her</h3>
+    <p>Highlight handcrafted work from women-led micro businesses.</p>
+  </article>
+  <article class="feature-card">
+    <h3>Easy Selling</h3>
+    <p>Add, edit, and manage product listings in just a few clicks.</p>
+  </article>
+  <article class="feature-card">
+    <h3>Smart Discovery</h3>
+    <p>Buyers can search products and filter by category for fast browsing.</p>
+  </article>
+</section>
+<% } %>
+
+<%- include('partials/footer') %>

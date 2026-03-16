@@ -1,0 +1,64 @@
+<%- include('partials/header', { title }) %>
+
+<section class="panel">
+  <div class="section-title-row">
+    <div>
+      <p class="eyebrow">Marketplace</p>
+      <h1>Discover products from women entrepreneurs</h1>
+    </div>
+  </div>
+
+  <form action="/products" method="GET" class="filter-form">
+    <input
+      type="text"
+      name="search"
+      placeholder="Search by product, category, or keyword"
+      value="<%= searchTerm %>"
+    />
+
+    <select name="category">
+      <option value="all" <%= selectedCategory === 'all' ? 'selected' : '' %>>All Categories</option>
+      <% categories.forEach((item) => { %>
+      <option value="<%= item %>" <%= selectedCategory === item ? 'selected' : '' %>><%= item %></option>
+      <% }) %>
+    </select>
+
+    <button type="submit" class="btn btn-primary">Apply</button>
+    <a href="/products" class="btn btn-ghost">Reset</a>
+  </form>
+</section>
+
+<section>
+  <% if (products.length === 0) { %>
+  <div class="empty-state">
+    <h3>No products matched your filters</h3>
+    <p>Try a broader search term or switch to a different category.</p>
+  </div>
+  <% } else { %>
+  <div class="product-grid">
+    <% products.forEach((product) => { %>
+    <article class="product-card">
+      <img src="<%= product.image %>" alt="<%= product.title %>" />
+      <div class="product-content">
+        <p class="muted"><%= product.category %></p>
+        <h3><%= product.title %></h3>
+        <p class="line-clamp"><%= product.description %></p>
+        <p class="muted">By <%= product.sellerId ? product.sellerId.name : 'Seller' %></p>
+        <p class="price">Rs <%= product.price.toFixed(2) %></p>
+      </div>
+      <div class="card-actions">
+        <a href="/product/<%= product._id %>" class="btn btn-small btn-primary">View Details</a>
+        <% if (product.isOwner) { %>
+        <a href="/product/edit/<%= product._id %>" class="btn btn-small btn-ghost">Edit</a>
+        <form action="/product/delete/<%= product._id %>" method="POST" class="inline-form confirm-delete">
+          <button type="submit" class="btn btn-small btn-danger">Delete</button>
+        </form>
+        <% } %>
+      </div>
+    </article>
+    <% }) %>
+  </div>
+  <% } %>
+</section>
+
+<%- include('partials/footer') %>

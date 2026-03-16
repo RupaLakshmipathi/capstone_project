@@ -1,0 +1,86 @@
+<%- include('partials/header', { title }) %>
+
+<section class="panel">
+  <div class="panel-head">
+    <div>
+      <p class="eyebrow">Dashboard</p>
+      <h1>Welcome, <%= user.name %>!</h1>
+      <p>You are signed in as a <strong><%= user.role %></strong>.</p>
+    </div>
+    <div class="panel-actions">
+      <a href="/products" class="btn btn-ghost">View Marketplace</a>
+      <% if (user.role === 'seller') { %>
+      <a href="/product/add" class="btn btn-primary">Add New Product</a>
+      <% } %>
+    </div>
+  </div>
+</section>
+
+<% if (user.role === 'seller') { %>
+<section class="panel">
+  <div class="section-title-row">
+    <h2>Your Products</h2>
+    <span class="chip"><%= sellerProducts.length %> listed</span>
+  </div>
+
+  <% if (sellerProducts.length === 0) { %>
+  <div class="empty-state">
+    <h3>No products yet</h3>
+    <p>Start by adding your first handmade or homemade product.</p>
+    <a href="/product/add" class="btn btn-primary">Add Product</a>
+  </div>
+  <% } else { %>
+  <div class="product-grid">
+    <% sellerProducts.forEach((product) => { %>
+    <article class="product-card">
+      <img src="<%= product.image %>" alt="<%= product.title %>" />
+      <div class="product-content">
+        <h3><%= product.title %></h3>
+        <p class="muted"><%= product.category %></p>
+        <p class="price">Rs <%= product.price.toFixed(2) %></p>
+      </div>
+      <div class="card-actions">
+        <a class="btn btn-small btn-ghost" href="/product/<%= product._id %>">View</a>
+        <a class="btn btn-small btn-primary" href="/product/edit/<%= product._id %>">Edit</a>
+        <form action="/product/delete/<%= product._id %>" method="POST" class="inline-form confirm-delete">
+          <button type="submit" class="btn btn-small btn-danger">Delete</button>
+        </form>
+      </div>
+    </article>
+    <% }) %>
+  </div>
+  <% } %>
+</section>
+<% } else { %>
+<section class="panel">
+  <div class="section-title-row">
+    <h2>Latest Products</h2>
+    <a href="/products" class="text-link">Browse all</a>
+  </div>
+
+  <% if (recentProducts.length === 0) { %>
+  <div class="empty-state">
+    <h3>No products available yet</h3>
+    <p>Check back soon as sellers start listing their products.</p>
+  </div>
+  <% } else { %>
+  <div class="product-grid">
+    <% recentProducts.forEach((product) => { %>
+    <article class="product-card">
+      <img src="<%= product.image %>" alt="<%= product.title %>" />
+      <div class="product-content">
+        <h3><%= product.title %></h3>
+        <p class="muted">By <%= product.sellerId ? product.sellerId.name : 'Seller' %></p>
+        <p class="price">Rs <%= product.price.toFixed(2) %></p>
+      </div>
+      <div class="card-actions">
+        <a class="btn btn-small btn-primary" href="/product/<%= product._id %>">View Details</a>
+      </div>
+    </article>
+    <% }) %>
+  </div>
+  <% } %>
+</section>
+<% } %>
+
+<%- include('partials/footer') %>
